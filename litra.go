@@ -3,7 +3,6 @@ package litra
 import (
 	"encoding/binary"
 	"bytes"
-	"fmt"
 	"math"
 	"time"
 
@@ -44,12 +43,8 @@ func getSetBrightness(level int) []byte {
 	minBrightness := float64(0x14)
 	maxBrightness := float64(0xfa)
 
-	fLevel := float64(level)
-
-	value := minBrightness + ((fLevel/100) * (maxBrightness - minBrightness));
+	value := minBrightness + ((float64(level)/100) * (maxBrightness - minBrightness));
 	adjusted_level := byte(math.Floor(float64(value)))
-
-	fmt.Printf("Level: %v, fLevel: %v, Value: %v, Adjusted Level: %v\n", level, fLevel, value, adjusted_level)
 
 	return []byte {0x11, 0xff, 0x04, 0x4c, 0x00, adjusted_level, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 }
