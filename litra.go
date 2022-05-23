@@ -41,13 +41,15 @@ func getSwitchOff() []byte {
 }
 
 func getSetBrightness(level int) []byte {
-	minBrightness := 0x14
-	maxBrightness := 0xfa
+	minBrightness := float64(0x14)
+	maxBrightness := float64(0xfa)
 
-	value := minBrightness + ((level/100) * (maxBrightness - minBrightness));
+	fLevel := float64(level)
+
+	value := minBrightness + ((fLevel/100) * (maxBrightness - minBrightness));
 	adjusted_level := byte(math.Floor(float64(value)))
 
-	fmt.Printf("Level: %v, Value: %v, Adjusted Level: %v\n", level, value, adjusted_level)
+	fmt.Printf("Level: %v, fLevel: %v, Value: %v, Adjusted Level: %v\n", level, fLevel, value, adjusted_level)
 
 	return []byte {0x11, 0xff, 0x04, 0x4c, 0x00, adjusted_level, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 }
