@@ -1,4 +1,4 @@
-module github.com/derickr/litra-driver
+module github.com/derickr/go-litra-driver
 
 go 1.17
 
