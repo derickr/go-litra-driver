@@ -3,7 +3,9 @@ package litra
 import (
 	"encoding/binary"
 	"bytes"
+	"fmt"
 	"math"
+	"time"
 
 	"github.com/karalabe/usb"
 )
@@ -45,6 +47,8 @@ func getSetBrightness(level int) []byte {
 	value := minBrightness + ((level/100) * (maxBrightness - minBrightness));
 	adjusted_level := byte(math.Floor(float64(value)))
 
+	fmt.Printf("Level: %v, Value: %v, Adjusted Level: %v\n", level, value, adjusted_level)
+
 	return []byte {0x11, 0xff, 0x04, 0x4c, 0x00, adjusted_level, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 }
 
@@ -62,6 +66,7 @@ func (d *LitraDevice) TurnOn() {
 
 	d.dev.Write(getSwitchOn())
 	d.dev.Read(dummy)
+	time.Sleep(30 * time.Millisecond)
 }
 
 func (d *LitraDevice) TurnOff() {
@@ -69,6 +74,7 @@ func (d *LitraDevice) TurnOff() {
 
 	d.dev.Write(getSwitchOff())
 	d.dev.Read(dummy)
+	time.Sleep(30 * time.Millisecond)
 }
 
 func (d *LitraDevice) SetBrightness(level int) {
@@ -76,6 +82,7 @@ func (d *LitraDevice) SetBrightness(level int) {
 
 	d.dev.Write(getSetBrightness(level))
 	d.dev.Read(dummy)
+	time.Sleep(30 * time.Millisecond)
 }
 
 func (d *LitraDevice) SetTemperature(temp int16) {
@@ -83,6 +90,7 @@ func (d *LitraDevice) SetTemperature(temp int16) {
 
 	d.dev.Write(getSetTemperature(temp))
 	d.dev.Read(dummy)
+	time.Sleep(30 * time.Millisecond)
 }
 
 func (d *LitraDevice) Close() {
