@@ -24,9 +24,6 @@ func New() (*LitraDevice, error) {
 	usbDevices, _ := usb.Enumerate(vendor, product)
 	dev, err := usbDevices[0].Open()
 	d.dev = dev
-	
-	d.SetBrightness(0)
-	d.SetTemperature(4500)
 
 	return d, err
 }
