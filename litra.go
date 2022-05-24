@@ -40,13 +40,27 @@ func getSetBrightness(level int) []byte {
 	minBrightness := float64(0x14)
 	maxBrightness := float64(0xfa)
 
-	value := minBrightness + ((float64(level)/100) * (maxBrightness - minBrightness));
+	if level < 0 {
+		level = 0
+	}
+	if level > 100 {
+		level = 100
+	}
+
+	value := minBrightness + ((float64(level) / 100) * (maxBrightness - minBrightness))
 	adjusted_level := byte(math.Floor(float64(value)))
 
 	return []byte{0x11, 0xff, 0x04, 0x4c, 0x00, adjusted_level, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 }
 
 func getSetTemperature(temp int16) []byte {
+	if temp < 2700 {
+		temp = 2700
+	}
+	if temp > 6500 {
+		temp = 6500
+	}
+
 	buf := new(bytes.Buffer)
 	binary.Write(buf, binary.BigEndian, temp)
 	byte0, _ := buf.ReadByte()
