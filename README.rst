@@ -16,6 +16,11 @@ the following UDEV rule in ``/etc/udev/rules.d/82-litra-glow.rules``::
 
 	SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", MODE:="0666", GROUP="plugdev"
 
+In case you want the device being used by a normal user, amend to ``/etc/udev/rules.d/82-litra-glow.rules``::
+
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", TAG+="uaccess"
+	KERNEL=="hidraw*", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", TAG+="uaccess"
+
 Then restart UDEV to refresh it rules::
 
 	udevadm control --reload-rules && udevadm trigger
