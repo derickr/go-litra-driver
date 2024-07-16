@@ -14,9 +14,11 @@ UDEV Config
 Before you can use the light on Linux as a non-root user, you need to set up
 the following UDEV rule in ``/etc/udev/rules.d/82-litra-glow.rules``::
 
-	SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", MODE:="0666", GROUP="plugdev"
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", MODE:="0666", GROUP="plugdev"
+	SUBSYSTEMS=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", TAG+="uaccess"
+	KERNEL=="hidraw*", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c900", TAG+="uaccess"
 
-Then restart UDEV to refresh it rules::
+Then restart UDEV to refresh it rules as root::
 
 	udevadm control --reload-rules && udevadm trigger
 
